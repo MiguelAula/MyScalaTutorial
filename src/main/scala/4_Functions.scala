@@ -13,8 +13,9 @@ object DefiningFunctions {
   def functionXL(a: Int,b: String,c: Unit,d: (Double,Float),e: Int => String): Unit = ???
 
   /*
-  You can parame
+  As we seen in the types section, you can parametrize on the type of a function like this:
    */
+  def getHead[A](list: List[A]): A = list.head
 
   def main(args: Array[String]): Unit = {
     println(countChars("I have 15 chars"))
@@ -23,8 +24,11 @@ object DefiningFunctions {
   }
 }
 
+/**
+ *  In this section we will learn about function composition while trying to create a more complex string formatter function using simple
+ *  formatting functions.
+ */
 object ComposingFunctions {
-  /* Here we aim to create a string formatter */
   val alphanumeric = (('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9')).toSet + ' '
   def isAlphanumeric(c: Char): Boolean = alphanumeric.contains(c)
   def onlyAlphanumeric(s:String): String = s.filter(isAlphanumeric)
@@ -41,6 +45,7 @@ object ComposingFunctions {
 
   def main(args: Array[String]): Unit = {
     println(formatString("  /·(=%=! this =)()   string HaS    ??¿ BeeN FiXeD!!!!!!!    "))
+    println(formatString2("  /·(=%=! this =)()   string HaS    ??¿ BeeN FiXeD!!!!!!!    "))
   }
 }
 
@@ -50,7 +55,7 @@ object ComposingFunctions {
 object PartialFunctions {
   def divide100(denom: Int): Int = 100 / denom
 
-  val divideP = new PartialFunction[(Int,Int), Int] {
+  /*val divideP = new PartialFunction[(Int,Int), Int] {
     def apply(num: Int, denom: Int) = num / denom
     def isDefinedAt(params) = x != 0
   }
@@ -60,11 +65,11 @@ object PartialFunctions {
   val divideP = new PartialFunction[(Int,Int), Int] {
     def apply(num: Int, denom: Int) = num / denom
     def isDefinedAt(params) = x != 0
-  }
+  }*/
 
   def main(args: Array[String]): Unit = {
-    println(divide(2,3))
-    println(divide(2,0))
+    //println(divide(2,3))
+    //println(divide(2,0))
   }
 }
 
@@ -74,9 +79,13 @@ object PartialFunctions {
  *  about the wrong result.
  */
 object UsingOptionEither {
-  def divideO(num: Int, denom: Int): Option[Int] = if (denom != 0) Some(num / denom) else None
+  def divideO(num: Int, denom: Int): Option[Int] =
+    if (denom != 0) Some(num / denom)
+    else None
 
-  def divideE(num: Int, denom: Int): Either[Throwable,Int] = if (denom != 0) Right(num / denom) else Left(new Throwable("Denominator cannot be zero!"))
+  def divideE(num: Int, denom: Int): Either[Throwable,Int] =
+    if (denom != 0) Right(num / denom)
+    else Left(new Throwable("Denominator cannot be zero!"))
 
   def main(args: Array[String]): Unit = {
     println(divideO(2,3))

@@ -15,11 +15,11 @@
     use .pop() on an array, the array itself gets modified as a result. However, if you use an immutable array you would get an other array with
     one less element.
 
-    You might ask yourself: how is that efficient? Would you not be duplicating elements non-stop?
+    You might ask yourself: how is that efficient? Would this not mean we are constantly duplicating elements? Is that not counter productive?
 
-    Well, it can be implemented in an efficient way. For example if your array is stored in an immutable value, you could get the new array resulting
-    from a .pop() by just pointing to the same array data structure but with length - 1, which would make you ignore the last element. So you are not
-    necessarily duplicating your existing data!
+    Well, it can be implemented in an efficient way. For example if you have a list stored in an immutable value and you want to remove the first element,
+    you could just return a new pointer that points to the second element of the list. So you still maintain the first list immutable and get a second
+    immutable list for free! So you are not necessarily duplicating your existing data.
 
 
   2) First-class functions:
@@ -39,7 +39,7 @@
 
     I like to think of functions as factory machines — they take an input, or arguments, and then output something, the return value. Pure functions
     don’t have ‘side effects’ or actions that don’t relate to the output of the function. Some potential side effects would be printing a value or
-    logging it out with consocan also sayle.log or println, or manipulating variables outside the function.
+    logging it out, or manipulating variables outside the function.
 
 
 
@@ -108,9 +108,9 @@ object Evaluation {
   def main(args: Array[String]): Unit = {
     /**
     If you run the empty main you will only see the "a" value being printed, since it is the only one being
-    evaluated as soon as it's defined when the Evaluation object is instantiated.
+    evaluated as soon as it's defined when the "Evaluation" object is instantiated.
 
-    If you uncomment the doNothing functions you will see how "b" is only evaluated once and "c" is evaluated twice.
+    If you uncomment the doNothing functions you will see how "b" is only evaluated once and "c" is evaluated twice, as expected.
      */
 
     //doNothing(a,b,c)

@@ -42,16 +42,33 @@ object SequenceImplementations {
  * Here we showcase the most basic sequence methods
  */
 object BasicSequenceMethods extends App {
+  def map[A,B](list: List[A])(f: A => B): List[B] = ???
+  def flatten[A](list: List[List[A]]): List[A] = ???
+  def flatMap[A,B](list: List[A])(f: A => List[B]): List[B] = flatten(map(list)(f))
+
   val nums: Seq[Int] = Seq(1,2,3,4,5)
 
-  //map
+  /* map
+      It allows you to transform a Seq[A] into an Seq[B] by applying a given function to each of its elements
+   */
   val seqPlus1 = nums.map(n => n + 1)
   val seqPlus1_2 = nums.map(_ + 1)
 
   println(s"seqPlus1: $seqPlus1")
   println(s"seqPlus1_2: $seqPlus1_2")
 
-  //flatMap
+  /* flatten
+      It turns a sequence of sequence into a single sequence.
+   */
+  val seqOfSeqs = Seq(Seq(1,2),Seq(3,4),Seq(5))
+  println(s"flattened seqOfSeqs: ${seqOfSeqs.flatten}")
+
+  val seqWithSeqs = Seq(1,2,Seq(3,4),Seq(5))
+  //def flattenSeqWithSeqs[A]()
+
+  /*flatMap
+
+   */
   val seqToChar = nums.flatMap(n => Seq(n,n))
   println(s"seqToChar: $seqToChar")
 
