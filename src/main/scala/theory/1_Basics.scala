@@ -1,3 +1,5 @@
+package theory
+
 /*
   WELCOME TO MIKI'S SCALA TUTORIAL!
 
@@ -98,8 +100,8 @@ object Mutability {
  * evaluation and lazyness: val / lazy val / def
  */
 object Evaluation {
-
   val a = println("evaluated right here")
+  //a = ()
   lazy val b = println("will be evaluated when used for the first time")
   def c = println("will be evaluated every time it is used")
 
@@ -108,11 +110,9 @@ object Evaluation {
   def main(args: Array[String]): Unit = {
     /**
     If you run the empty main you will only see the "a" value being printed, since it is the only one being
-    evaluated as soon as it's defined when the "Evaluation" object is instantiated.
-
+    evaluated as soon as it's defined when the "theory.Evaluation" object is instantiated.
     If you uncomment the doNothing functions you will see how "b" is only evaluated once and "c" is evaluated twice, as expected.
      */
-
     //doNothing(a,b,c)
     //doNothing(a,b,c)
   }
@@ -150,11 +150,11 @@ object IfExpressions {
  */
 object BasicPatternMatching {
   import scala.util.Random
-  var int: Int = Random.nextInt()
+  var n: Int = Random.nextInt()
 
-  val str: String = int match {
-    case posNum if posNum > 0 => "positive number"
-    case negNum if negNum < 0 => "negative number"
+  val str: String = n match {
+    case x if x > 0 => s"positive number"
+    case x if x < 0 => s"negative number"
     case 0 => "zero"
   }
 

@@ -1,3 +1,5 @@
+package theory
+
 object Collections {
   val seq: Seq[Int] = Seq(1,2,3,3)
   val set: Set[Int] = Set(1,2,3,3)

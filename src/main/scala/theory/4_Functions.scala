@@ -1,3 +1,5 @@
+package theory
+
 object DefiningFunctions {
   //named func
   def countChars(str: String): Int = str.length
@@ -101,10 +103,9 @@ object UsingOptionEither {
  */
 object PatternMatching {
   /*
-  We can import the divide functions from the UsingOptionEither object to use them here...
+  We can import the divide functions from the theory.UsingOptionEither object to use them here...
    */
-  import UsingOptionEither.divideO
-  import UsingOptionEither.divideE
+  import UsingOptionEither.{divideE, divideO}
 
   /*
   Let's reason about the Option / Either results defining a printer for our division functions...

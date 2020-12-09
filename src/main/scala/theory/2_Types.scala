@@ -1,3 +1,5 @@
+package theory
+
 /**
  *  Scala basic types (subtype of AnyVal)
  */
@@ -49,6 +51,41 @@ object OptionEither {
 
   val right: Either[Throwable,Int] = Right(5)
   val left: Either[Throwable,Int] = Left(new Throwable("No integer found"))
+}
+
+/**
+ *  A second insight on patternmatching: how to add program logic
+ */
+object OptionEitherPatternMatching {
+  import org.scalacheck.Gen
+  import org.scalacheck.Gen.Choose.chooseInt
+
+  val optionGenerator: Gen[Option[Int]] = Gen.option(Gen.posNum[Int])
+  val eitherGenerator: Gen[Either[Throwable,Int]] = Gen.either(Gen.const(new Throwable("NO INT FOUND!")),Gen.posNum[Int])
+
+  val randOption: Option[Int] = optionGenerator.sample.get
+  val randEither: Either[Throwable,Int] = eitherGenerator.sample.get
+
+  /**
+   * We can use pattern-matching to decide over an option...
+   */
+  val strOption = randOption match {
+    case Some(value) => s"This option contains the value: $value"
+    case None => "This option does not contain any value"
+  }
+
+  val strEither = randEither match {
+    case Left(ex) => s"This either contains the exception: ${ex.getMessage}"
+    case Right(value) => s"This either contains the value: $value"
+  }
+
+  def main(args: Array[String]): Unit = {
+    println(randOption)
+    println(randEither)
+
+    println(strOption)
+    println(strEither)
+  }
 }
 
 object Function {
