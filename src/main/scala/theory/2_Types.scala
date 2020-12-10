@@ -29,17 +29,18 @@ object Tuples {
   /** accessing tuple value */
   val tuple5_string: String = tuple5._4
   val tuple5_double: Double = tuple5 match {
-    case (i, c, bool, str, d, fl) => d
+    case (_, _, _, _, d, _) => d
   }
 }
 
 /**
- *
+ *  First insight into class definition and instantiation in scala:
  */
 object Classes {
-  class MyClass(param1: Int, param2: Boolean)
 
-  val a: MyClass = new MyClass(1,true)
+  class MyClass(param1: Int, param2: Boolean)
+  val myClassInstance: MyClass = new MyClass(1,true)
+
 }
 
 /**
@@ -88,8 +89,14 @@ object OptionEitherPatternMatching {
   }
 }
 
+object OptionEitherUsage {
+  def impureDivide(num: Int, denom: Int): Int = num / denom
+
+  def pureDivide(num: Int, denom: Int): Option[Int] = if (denom != 0) Some(num / denom) else None
+}
+
 object Function {
-  val function1: Int => Int = (i: Int) => i+1
+  val function1: Int => Int = i => i+1
   val function2: Int => Int = _ + 1
 
   /* DID YOU KNOW...
@@ -97,8 +104,16 @@ object Function {
   Also you can use _ to represent an anonymous parameter which will only be used once in the function implementation.
   */
 
-  val countChars: String => Int = (x: String) => x.length
-  val sumAllIfCond: (Int,Int,Int,Boolean) => Option[Int] = (a, b, c, doSum) => if (doSum) Some(a+b+c) else None
+  def funcionCompleja(input: Int): Int = {
+    def cacho1(): Int = ???
+    def cacho2(): Int = ???
+
+    cacho1() + cacho2()
+  }
+
+  val countChars: String => Int = _.length
+  val sumAllIfCond: (Int,Int,Int,Boolean) => Option[Int] =
+    (a, b, c, doSum) => if (doSum) Some(a+b+c) else None
 
   def main(args: Array[String]): Unit = {
     println(s"countChars function: $countChars")
@@ -157,13 +172,16 @@ object TypeParametrization {
    */
 
   /**
-   * Here we present a first insight on the signature of the ever-present functions in FP: map and flatMap
+   * Here we present a first insight on the signature of the ever-present functions in FP: map and flatMap.
+   * The implementation of these functions is not important right now, it's just to showcase a use of the type parametrization.
    */
   def map[A,B](list: List[A])(f: A => B): List[B] = ???
   def flatten[A](list: List[List[A]]): List[A] = ???
+
   def flatMap[A,B](list: List[A])(f: A => List[B]): List[B] = flatten(map(list)(f))
 
   def main(args: Array[String]): Unit = {
+    println(parse(3))
     println(parse(List(3)))
   }
 }
