@@ -4,7 +4,7 @@ object TypesExercises {
   /**
    *  1) Build a tuple (Int,String,Bool) of your choice.
    */
-  val myTuple = (1,"2",true)
+
 
   /**
    *  2) Make an Option from the tuple. The option should contain a pair (Int,String) if the Boolean is true, and None if it is false.
