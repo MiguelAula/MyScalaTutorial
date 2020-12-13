@@ -57,6 +57,10 @@ object ComposingFunctions {
 object PartialFunctions {
   def divide100(denom: Int): Int = 100 / denom
 
+  /*
+  EN CONSTRUCCIÓ!!
+   */
+
   /*val divideP = new PartialFunction[(Int,Int), Int] {
     def apply(num: Int, denom: Int) = num / denom
     def isDefinedAt(params) = x != 0
@@ -147,11 +151,21 @@ object PatternMatching {
  *
  */
 object Abstraction {
+  /*
+  EN CONSTRUCCIÓ!
 
+  Aquí es vol mostrar com podem abstreure la part comuna del comportament de N funcions en 1 sola.
+
+  (es podria mostrar traverse i sequence aquí)
+   */
 }
 
 object Implicits {
+  /*
+  EN CONSTRUCCIÓ!
 
+  Mostrar l'ús dels implicits
+   */
 }
 
 object MoreSequenceMethods {

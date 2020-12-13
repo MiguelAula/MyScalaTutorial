@@ -65,8 +65,8 @@ object Inheritance {
 
   /**  You can make an instance from an abstract class by overriding its NON-IMPLEMENTED values and methods */
   val myAnimal: Animal = new Animal {
-    override val sound: String = "meow"
-    override val avgSpeed: Double = 22
+    val sound: String = "meow"
+    val avgSpeed: Double = 22
     /*
     Notice that you don't need to give an implementation for "travelTime" because the abstract class already contains it. You CAN nevertheless override it if
     you wish to:
@@ -77,16 +77,16 @@ object Inheritance {
 
   /** You can create a more concrete class that inherits from the abstract class, and add any vals or methods you see fit*/
   class Cat(val name: String, val color: String) extends Animal {
-    override val sound: String = "meow"
-    override val avgSpeed: Double = 22
+    val sound: String = "meow"
+    val avgSpeed: Double = 22
   }
 
   val myCat = new Cat("whiskers","black")
 
   /** You can also make an object that inherits from it, but remember, this will be a singleton instance! */
   object MySpecificCat extends Animal {
-    override val sound: String = "meow"
-    override val avgSpeed: Double = 22
+    val sound: String = "meow"
+    val avgSpeed: Double = 22
   }
 }
 
@@ -94,7 +94,7 @@ object Inheritance {
  * The "final" keyword is used to precede something that cannot be changed through inheritance.
  */
 object finalKeyword {
-  trait AstralCorpse {
+  abstract class AstralCorpse {
     val canHaveAtmosphere: Boolean
   }
   /**
@@ -145,11 +145,11 @@ object CompanionObjects extends App {
   }
 
   val s = Wall.buildRandom
-  val s2 = Wall(10,10)
-
   s match {
-    case Wall(d, d1) => println(s"this wall has dimensions ($d,$d1)")
+    case Wall(h, w) => println(s"this wall has dimensions ($h,$w)")
   }
+
+  val s2 = Wall(10,10)
   s2 match {
     case Wall(d, d1) => println(s"this wall has dimensions ($d,$d1)")
   }

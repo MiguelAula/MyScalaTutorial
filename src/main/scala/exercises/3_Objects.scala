@@ -1,5 +1,4 @@
 package exercises
-import exercises.ObjectsExercises.Mouse
 
 object ObjectsExercises {
   /**

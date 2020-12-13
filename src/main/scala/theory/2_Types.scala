@@ -177,8 +177,7 @@ object TypeParametrization {
    */
   def map[A,B](list: List[A])(f: A => B): List[B] = ???
   def flatten[A](list: List[List[A]]): List[A] = ???
-
-  def flatMap[A,B](list: List[A])(f: A => List[B]): List[B] = flatten(map(list)(f))
+  def flatMap[A,B](list: List[A])(f: A => List[B]): List[B] = ???
 
   def main(args: Array[String]): Unit = {
     println(parse(3))
@@ -187,6 +186,7 @@ object TypeParametrization {
 }
 
 /**
+ *  (OPTIONAL)
  *  You can also make type constructors... this can be a bit confusing so don't worry if you don't get it yet! It will come up again later on in
  *  a more clear example.
  */
