@@ -4,7 +4,6 @@ package exercises
  *  Here's a little set of exercises to get you in the "recursive" mood in case you are not used to it.
  */
 object Recursivity {
-
   /**
    * The factorial is function that recieves an Int "n" and returns the result of multiplying (n * n-1 * n-2 * ... * 1).
    * The factorial of 0 is 1.

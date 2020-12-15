@@ -23,6 +23,8 @@ object Recursivity extends App {
     else if (n == 1) 1  //here we do not call the factorial function anymore. We return the result of factorial(1) instead, which would be 1.
     else ???
 
+  //factorial(5) => 5 * factorial(4) => 5 * (4 * factorial(3)) => ... => 5 * 4 * 3 * 2 * factorial(1) => 5 * 4 * 3 * 2 * 1
+
   /**
    * Alright so we are done now right? Nope! We need to take care of the edge cases now. There is a factorial detail I have omitted until now which is:
    * factorial(0) == 1 !! Our recursive case nor our base case cover this edge case. So we need to add extra logic for it:
@@ -30,7 +32,7 @@ object Recursivity extends App {
   def factorial_v3(n: Int): Int =
     if (n > 1) n * factorial_v3(n-1)
     else if (n == 1 || n == 0) 1
-    else ???
+    else throw new Exception("asdfasdf")
 
 
   /**
@@ -80,11 +82,12 @@ object Recursivity extends App {
    */
   def factorialTR(n: Int): Option[Int] = {
     @tailrec
-    def loop(n: Int, acc: Int): Option[Int] =
-      if (n > 1) loop(n-1,acc * n)
+    def loop(n: Int, acc: Int = 1): Option[Int] =
+      if (n > 1) loop(n-1,n * acc)
       else if (n == 1 || n == 0) Some(acc)
       else None
-    loop(n,1)
+
+    loop(n)
   }
 
   /**
