@@ -5,7 +5,7 @@ package exercises
  */
 object CollectionsExercises {
   /**
-   * 0.1) Define a value that contains the sum of all numbers from 1 to 20
+   * 1) Define a value that contains the sum of all numbers from 1 to 20
    */
   val sum = ???
   //println(sum)
@@ -54,6 +54,12 @@ object CollectionsExercises {
    */
   val l6 = ???
   //println(l6)
+
+  /**
+   * 8) Define a new list that contains only the pair number from l
+   */
+  val l7 = ???
+  //println(l7)
 
 }
 

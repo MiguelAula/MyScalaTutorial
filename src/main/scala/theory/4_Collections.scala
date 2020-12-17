@@ -15,10 +15,13 @@ object Collections {
   val set: Set[Int] = Set(1,2,3,3)
   val map: Map[Int,String] = Map(1 -> "one",2 -> "two", 3 -> "three", 3 -> "three again")
 
+  val map2: Map[Int, String] = map.updated(3, "three")
+
   def main(args: Array[String]): Unit = {
     println(s"seq: $seq")
     println(s"set: $set")
     println(s"map: $map")
+    println(s"map2: $map2")
 
     /* After executing: notice how duplicates are ignored in "Set" and how "Map" overrides the value if you try to duplicate a key */
   }
@@ -62,7 +65,7 @@ object BasicSequenceMethods extends App {
       It allows you to transform a Seq[A] into an Seq[B] by applying a given function A => B to each of its elements
    */
   def map[A,B](seq: Seq[A])(f: A => B): Seq[B] = seq match {
-    case head :: tail => f(head) +: map(tail)(f)  /* this is equivalent to: map(tail)(f).+:(f(head)) */
+    case head +: tail => f(head) +: map(tail)(f)  /* this is equivalent to: map(tail)(f).+:(f(head)) */
     case Nil => Nil
   }
 
@@ -76,10 +79,11 @@ object BasicSequenceMethods extends App {
       It turns a sequence of sequence into a single sequence.
    */
   def flatten[A](seq: Seq[Seq[A]]): Seq[A] = seq match {
-    case subSeq :: tail => subSeq match {
-      case head :: subTail => head +: flatten(subTail +: tail)
-      case Nil => flatten(tail)
-    }
+    case subSeq :: tail =>
+      subSeq match {
+        case head :: subTail => head +: flatten(subTail +: tail)
+        case Nil => flatten(tail)
+      }
     case Nil => Nil
   }
 
@@ -98,7 +102,7 @@ object BasicSequenceMethods extends App {
   println(s"seqToChar: $seqToChar")
 
   //head / tail
-  val firstVal = nums.head
+  val firstVal = nums.headOption
   val restOfVals = nums.tail
   println(s"firstVal: $firstVal")
   println(s"restOfVals: $restOfVals")
@@ -118,6 +122,10 @@ object BasicSequenceMethods extends App {
   //sortWith
   val sortFromBigger = nums.sortWith(_ > _)
   println(s"sortFromBigger: $sortFromBigger")
+
+  //sortWith2
+  val sortByAs = List("asdfawegwe","awwaefwevawef","aaaaa").sortWith(_.count(_ == 'a') > _.count(_ == 'a'))
+  println(s"sortByAs: $sortByAs")
 
   //take
   val takeTwo = nums.take(2)
