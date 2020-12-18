@@ -1,7 +1,7 @@
 package exercises
 
 
-object FunctionExercises extends App {
+object FunctionExercises {
   /**
    *  0) The msort function below implements a merge-sort on a list given a comparison function lt.
    *  Try to understand its implementation.
@@ -49,15 +49,12 @@ object FunctionExercises extends App {
    */
   val l1 = List(3,5,1,4,2)
   val l1sorted = ???
-  assert(l1sorted == List(1,2,3,4,5))
 
   val l2 = List('a','j','z','d')
   val l2sorted = ???
-  assert(l2sorted == List('a','d','j','z'))
 
   val l3 = List("pineapple","pear","apple","banana")
   val l3sorted = ???
-  assert(l3sorted == List("pear","apple","banana","pineapple"))
 
   /**
    * 3) Make the ordering parameter implicit. What changes?
@@ -83,22 +80,19 @@ object FunctionExercises extends App {
    */
   val l4 = List(3,5,1,4,2)
   val l4sorted = ???
-  assert(l1sorted == List(1,2,3,4,5))
 
   val l5 = List('a','j','z','d')
   val l5sorted = ???
-  assert(l5sorted == List('a','d','j','z'))
 
   val l6 = List("pineapple","pear","apple","banana")
   val l6sorted = ???
-  assert(l6sorted == List("pear","apple","banana","pineapple"))
 
-  /** ---------------------------------------------------------- */
+  /** -------------------- OPTIONAL ------------------------- */
 
   /**
    * 5) Make a partial function that multiplies its input by 2. The allowed inputs are all positive numbers (including 0).
    */
-  val multPos = new PartialFunction[Int, Int] {
+  val multPos: PartialFunction[Int, Int] = new PartialFunction[Int, Int] {
     override def isDefinedAt(x: Int): Boolean = ???
 
     override def apply(v1: Int): Int = ???
@@ -107,7 +101,7 @@ object FunctionExercises extends App {
   /**
    * 6) Make a partial function that multiplies its input by 2. The allowed inputs are all negative numbers.
    */
-  val multNeg = new PartialFunction[Int, Int] {
+  val multNeg: PartialFunction[Int, Int] = new PartialFunction[Int, Int] {
     override def isDefinedAt(x: Int): Boolean = ???
 
     override def apply(v1: Int): Int = ???
@@ -116,7 +110,7 @@ object FunctionExercises extends App {
   /**
    * 7) Combine partial functions from 5) and 6) into a new function defined for all integers. Test it.
    */
-  val mult = ???
+  val mult: PartialFunction[Int, Int] = ???
 }
 
 

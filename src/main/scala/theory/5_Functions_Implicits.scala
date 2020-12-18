@@ -35,12 +35,12 @@ object DefiningFunctions {
 object ComposingFunctions {
   val alphanumericSet: Set[Char] = (('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9')).toSet + ' '
   def isAlphanumeric(c: Char): Boolean = alphanumericSet.contains(c)
-  def onlyAlphanumeric(s:String): String = s.filter(isAlphanumeric)
+  def filterAlphanumeric(s:String): String = s.filter(isAlphanumeric)
   def toUpper(str: String): String = str.toUpperCase
   def fixSpaces(str: String): String = str.trim.replaceAll("\\s+"," ")
 
-  def formatString = onlyAlphanumeric _ andThen toUpper andThen fixSpaces
-  def formatString2 = onlyAlphanumeric _ compose toUpper compose fixSpaces
+  def formatString = filterAlphanumeric _ andThen toUpper andThen fixSpaces
+  def formatString2 = filterAlphanumeric _ compose toUpper compose fixSpaces
 
   /*
   Ordering using andThen: f(x) andThen g(x) == g(f(x))
@@ -75,7 +75,7 @@ object PartialFunctions {
     override def apply(v: (Int, Int)): Int = v._1 / v._2
   }
 
-  val divideO: ((Int, Int)) => Option[Int] = divideP.lift
+  val divideOption: ((Int, Int)) => Option[Int] = divideP.lift
 
   /** We could build a partial function so that it is defined for all numbers with the orElse method */
   val divideBy0 = new PartialFunction[(Int,Int), String] {
@@ -90,7 +90,7 @@ object PartialFunctions {
     println(s"divide (2/3): ${divide(2,3)}")
     //println(s"divide: ${divide(2,0)}")  //this throws runtime exception!
     println(s"divideP (2/0): ${divideP.applyOrElse((2,0), (params: (Int,Int)) => s"undefined for parameters ${params._1}/${params._2}")}")
-    println(s"divideO (2/0): ${divideO(2,0)}")
+    println(s"divideO (2/0): ${divideOption(2,0)}")
 
     println(s"divide (2/0): ${divideComplete(2,0)}")
   }
@@ -171,7 +171,7 @@ object PatternMatching {
  *  Scala has a way of automatically passing parameters to a function. If you want a parameter to be passed like this you must use the "implicit" keyword.
  *  Scala will then look for the appropriate implicit value to pass, which means you need to have that implicit value defined somewhere! Let's see how this works...
  */
-object Implicits extends App {
+object Implicits {
   import UsingOptionEither.{divideE, divideO}
 
   implicit val optionPrinter = (res: Option[Int]) => res match {
@@ -185,11 +185,6 @@ object Implicits extends App {
 
   def print[A](it: A)(implicit printer: A => String): Unit = println(printer(it))
 
-  /*
-  Now, as long as we have a predefined printer for the type, we can use the print function:
-   */
-  print(divideE(1,0))
-  print(divideO(6,2))
 
   /*
   But what happens if we try to print a type with no defined implicit? The scala compiler will throw an error, also IntellIJ warns us beforehand.
@@ -206,16 +201,14 @@ object Implicits extends App {
   This is usually enough, since at the moment of writing the code we should always know the types we are handling and if we come accross a type that is not defined
   for our print function, it is a sign that we should go to the file that contains the implicits and add it there.
    */
-  implicit val catPrinter = (c: Cat) => s"One ${c.color} cat named ${c.name}"
-  print(Cat("Lucy","black"))
+  implicit val catPrinter: Cat => String = (c: Cat) => s"One ${c.color} cat named ${c.name}"
+
 
   /*
     Nevertheless if, for some reason, we expect our print function to handle unexpected item types without giving out compilation error, we must define a default
     implicit for it:
    */
   implicit val anyPrinter = (_: Any) => "Unknown item"
-
-  print(new Dog("Lucky","brown"))
 
   /**
   BEWARE: the implicit values MUST be defined_
@@ -230,21 +223,36 @@ object Implicits extends App {
 
   NOTE: The compiler looks for implicit members locally defined in the current or enclosing scopes, inherited, or imported.
    */
+  def main(args: Array[String]): Unit = {
+    /*
+    Now, as long as we have a predefined printer for the type, we can use the print function:
+     */
+    print(divideE(1, 0))
+    print(divideO(6, 2))
+
+    print(Cat("Lucy","black"))
+
+    print(new Dog("Lucky","brown"))
+  }
 }
 
 /**
  * If you need access an implicit value you can use the "implicitly" keyword.
  * It is commonly used to check if an implicit value of type T is available in some context and return it if such is the case.
  */
-object Implicitly extends App {
-  implicit val a = "test" // define an implicit value of type String
-  val b = implicitly[String] // search for an implicit value of type String and assign it to b
-  println(b)
+object StringImpl {
+  implicit val a: String = "test" // define an implicit value of type String
+}
 
-  //import theory.Implicits.catPrinter  //It doesn't work if we import the implicit... need to check why... ????
-  implicit val catPrinter = (c: Cat) => s"One ${c.color} cat named ${c.name}"
-  val c = implicitly[Cat => String] // search for an implicit value of type Any => String
-  println(c)
+object Implicitly {
+  import StringImpl._
+  import theory.Implicits.catPrinter
+
+  def main(args: Array[String]): Unit = {
+    println(implicitly[String])
+    val x = implicitly[Cat => String] // search for an implicit value of type Any => String
+    println(x)
+  }
 }
 
 /**
@@ -253,22 +261,23 @@ object Implicitly extends App {
  */
 object TypeClasses extends App {
   sealed trait Printer[A] {
-    def print(a: A): String
+    def howToPrint(a: A): String
   }
   trait GenericPrinter {
     implicit def genericPrinter[A]: Printer[A] = new Printer[A] {
-      override def print(x: A): String = x.toString
+      override def howToPrint(x: A): String = x.toString
     }
   }
   object Printer extends GenericPrinter {
+    /* Implicits */
     implicit val catPrinter: Printer[Cat] = new Printer[Cat] {
-      override def print(c: Cat): String = s"One ${c.color} cat named ${c.name}"
+      override def howToPrint(c: Cat): String = s"One ${c.color} cat named ${c.name}"
     }
     implicit val dogPrinter: Printer[Dog] = new Printer[Dog] {
-      override def print(d: Dog): String = s"One ${d.color} dog named ${d.name}"
+      override def howToPrint(d: Dog): String = s"One ${d.color} dog named ${d.name}"
     }
     /* Methods */
-    def print[A](a: A)(implicit p: Printer[A]): Unit = println(p.print(a))
+    def print[A](a: A)(implicit p: Printer[A]): Unit = println(p.howToPrint(a))
   }
 
   Printer.print(Cat("Lucas","grey"))
