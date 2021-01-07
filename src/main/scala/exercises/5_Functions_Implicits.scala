@@ -40,7 +40,7 @@ object FunctionExercises {
           else h2 :: merge(t2,l1)
       }
       val (part1, part2) = l.splitAt(n)
-      merge(basic_msort(part1)(???),basic_msort(part2)(???))
+      merge(???,???)
     }
   }
 
@@ -59,7 +59,7 @@ object FunctionExercises {
   /**
    * 3) Make the ordering parameter implicit. What changes?
    */
-  def msort[A](l: List[A])(ord: Ordering[A]): List[A] = {
+  def msort[A](l: List[A])(implicit ord: Ordering[A]): List[A] = {
     val n = l.length / 2
     if (n == 0) l
     else {
@@ -71,7 +71,7 @@ object FunctionExercises {
           else h2 :: merge(t2,l1)
       }
       val (part1, part2) = l.splitAt(n)
-      merge(basic_msort(part1)(???),basic_msort(part2)(???))
+      merge(???,???)
     }
   }
 

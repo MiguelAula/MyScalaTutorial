@@ -32,10 +32,10 @@ class FunctionsTest extends FunSuite {
   }
 
   test("6) multNeg") {
-    assertEquals(multPos.isDefinedAt(0) , false)
-    assertEquals(multPos.isDefinedAt(10) , false)
-    assertEquals(multPos.isDefinedAt(-10) , true)
-    assertEquals(multPos.apply(-10) , -20)
+    assertEquals(multNeg.isDefinedAt(0) , false)
+    assertEquals(multNeg.isDefinedAt(10) , false)
+    assertEquals(multNeg.isDefinedAt(-10) , true)
+    assertEquals(multNeg.apply(-10) , -20)
   }
 
   test("7) mult") {

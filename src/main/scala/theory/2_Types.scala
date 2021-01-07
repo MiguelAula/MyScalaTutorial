@@ -186,7 +186,7 @@ object TypeParametrization {
 }
 
 /**
- *  (OPTIONAL)
+ *  (JUST A QUICK LOOKAHEAD)
  *  You can also make type constructors... this can be a bit confusing so don't worry if you don't get it yet! It will come up again later on in
  *  a more clear example.
  */
