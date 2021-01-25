@@ -1,5 +1,9 @@
 package solutions
 
+import solutions.TypeConstructorExercises.JSON
+
+import scala.util.Try
+
 object TypeClassesExercises {
   /**
    *  1) In the previous chapter we noticed that we needed to know the initial value for a type to be able to implement reduce in terms of foldLeft for
@@ -15,7 +19,7 @@ object TypeClassesExercises {
   }
 
   /**
-   * 1.2) Define at least two implicit values for the Monoid typeClass (Int,String)
+   * 1.2) Define at least two implicit values for the Monoid typeClass (Int,String). Consider the sum/concatenation operation.
    */
   implicit val intMonoid: Monoid[Int] = new Monoid[Int] {
     override def zero: Int = 0
@@ -84,14 +88,19 @@ object TypeClassesExercises {
     def nextInt: (Int, RNG) = {
       val newSeed = (seed * System.currentTimeMillis() + 0xBL) & 0xFFFFFFFFFFFFL
       val nextRNG = SimpleRNG(newSeed)
-      val n = (newSeed >>> 16).toInt
+      val n = (seed >>> 16).toInt
       (n, nextRNG)
     }
 
-    val int: Rand[Int] = _.nextInt
+    val int: Rand[Int] = rng => rng.nextInt
 
     def boolean: Rand[Boolean] = ???
     def double: Rand[Double] = ???
+
+
+  }
+  object SimpleRNG {
+
   }
 
   /**
@@ -100,7 +109,7 @@ object TypeClassesExercises {
   /* the 'map' function */
 
   /**
-   *  2.2) Make the RNG trait extend 'Functor' and implement the map method
+   *  2.2) Implement the map method for SimpleRNG. Use it to implement also the boolean and double methods
    */
 
   /**
@@ -108,54 +117,15 @@ object TypeClassesExercises {
    */
 
   /**
-   *  2.4) Add a 'map2' function that lets us turn any
+   *  2.4) Add a 'map2' function that lets us combine 2 RNGs
    */
 
-
   /**
-   *  3) Define a 'Parser' trait. Which operations would be useful for a parser? To start off define only the function signatures (use ??? as the implementation
-   *  if needed)...
-   *  Which ones can be implemented without knowing anything about the Parser implementation? In other words, which functions can be implemented just by
-   *  using other just defined functions?
-   *
-   *  Tips:
-   *  - we should be able to run a parser and get either the expected output or an exception (run)
-   *  - we should be able to turn any value into a parser (unit)
-   *  - we should be able to turn any Parser[A] into a Parser[B] (map, flatMap)
-   *  - we should be able to merge any two parsers into a new parser (map2)
-   *  - we should be able to transform a list of parsers into a parser of list (sequence)
-   *  - (optional) we should be able to transform a parser of list into a list of parsers (traverse)
-   */
-  trait Parser[A] {
-    def run(input: String): Result[A]
-    def map[B](f: A => B): Parser[B] = this.flatMap(a => Parser.unit(f(a)))
-    def flatMap[B](f: A => Parser[B]): Parser[B]
-  }
-  object Parser {
-    def unit[A](a: A): Parser[A] = new Parser[A] {
-      override def run(input: String): Result[A] = Success(a,input.length)
-      override def flatMap[B](f: A => Parser[B]): Parser[B] = f(a)
-    }
-    def sequence[A](l: List[Parser[A]]): Parser[List[A]] = l.foldLeft(unit(List(): List[A]))((acc, p) => map2(acc,p)((l, pr) => pr :: l))
-    def map2[A,B,C](p1: Parser[A], p2: => Parser[B])(f: (A,B) => C): Parser[C] = p1.flatMap(a => p2.map(b => f(a,b)))
-  }
-
-  trait Result[+A]
-  case class Success[+A](get: A, charsConsumed: Int) extends Result[A]
-  case class Failure(get: Throwable) extends Result[Nothing]
-
-  /**
-   *  3.2) Come up with an implementation for your Parser trait.
-   *
-   *  Once you are done, run the appropriate test to check if your implementation is valid (you will need to change the import on the test file to point to
-   *  your Parser implementation.
-   *
-   *  Note: the names of the methods need to EXACTLY match AT LEAST the ones proposed on the 'tips' section or else the test suite will fail.
+   *  There are more exercises in the TypeClasses package. Take a look!
    */
 
-
   /**
-   *  4) Did you notice throughout the course that there was several types of data that shared the 'map' function? List some of them. Con you think of any
+   *  5) Did you notice throughout the course that there was several types of data that shared the 'map' function? List some of them. Con you think of any
    *  commonly used data type that could use the map function and we have not defined yet?
    */
   /*
@@ -166,7 +136,7 @@ object TypeClassesExercises {
    */
 
   /**
-   *  5) Try to define a typeClass named 'Functor' that encapsulates the 'map' behaviour. Can it be done? If not, why?
+   *  6) Try to define a typeClass named 'Functor' that encapsulates the 'map' behaviour. Can it be done? If not, why?
    */
   /*
   It can't be done because to implement map we need to reason about the parametric type A inside it's typeClass. For example, for lists we need to reason about
@@ -199,7 +169,6 @@ object TypeClassesExercises {
     println(
       reduceFL(List(List('a','b'),List('c','d')))(_ ::: _)
     )
-
   }
 }
 

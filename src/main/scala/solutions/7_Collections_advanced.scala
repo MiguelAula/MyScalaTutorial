@@ -1,13 +1,27 @@
 package solutions
 
+import scala.annotation.tailrec
+
 object CollectionsAdvancedExercises {
   /**
    *  1) Implement the foldLeft function
    */
-  def foldLeft[A,B](l: List[A],z: B)(f: (B,A) => B): B = l match {
+  @tailrec
+  def foldLeft[A,B](l: List[A], z: B)(f: (B,A) => B): B = l match {
     case h :: t => foldLeft(t,f(z,h))(f)
     case Nil => z
   }
+
+  /*
+  How does this behave? Example breakdown:
+
+    foldLeft(List('A','B','C'),'z')(_ + _)
+
+    1) case 'A' :: List('B','C') => FL(List('B','C'), 'z' + 'A')
+    2) case 'B' :: List('C') => FL(List('C'), 'zA' + 'B')
+    3) case 'C' :: Nil => FL(Nil, 'zAB' + 'C')
+    4) case Nil => 'zABC'
+   */
 
   /**
    *  2) Implement the foldRight function
@@ -16,6 +30,19 @@ object CollectionsAdvancedExercises {
     case h :: t => f(h,foldRight(t,z)(f))
     case Nil => z
   }
+
+  /*
+  How does this behave? Example breakdown:
+
+  (Note: the =/=> notation means it continues AFTER the recursive call has returned, which means you have to keep reading the following lines before continuing)
+
+    foldRight(List('A','B','C'),'z')(_ + _)
+
+    1) case 'A' :: List('B','C') => 'A' + FR(List('B','C'),'z') =/=> 'A' + 'BCz' => 'ABCz'
+    2) case 'B' :: List('C') => 'B' + FR(List('C'),'z') =/=> 'B' + 'Cz' => 'BCz'
+    3) case 'C' :: Nil => 'C' + FR(Nil,'z') =/=> 'C' + 'z' => 'Cz'
+    4) case Nil => 'z'
+   */
 
   /**
    * Notice how the foldLeft function is tail recursive by definition, while the foldRight function is not. Nevertheless, the FR function can also be made
@@ -74,13 +101,24 @@ object CollectionsAdvancedExercises {
     }
   }
 
+  /**
+   * 9) Create the file test/scala/Collections_advanced_test, and make a simple test case for this two functions. Would it be useful to use property based testing in this case?
+   * Give it a try!
+   */
+
   def main(args: Array[String]): Unit = {
     println(
-      foldLeft(List(1,2,3),0)(_ + _*2)
+      "FL (self): " + foldLeft(List(1,2,3),"s")(_ + _)
+    )
+    println(
+      "FL (real): " + List(1,2,3).foldLeft("s")(_ + _)
     )
 
     println(
-      foldRight(List(1,2,3),0)(_*2 + _)
+      "FR (self): " + foldRight(List(1,2,3),"s")(_ + _)
+    )
+    println(
+      "FR (real): " + List(1,2,3).foldRight("s")(_ + _)
     )
 
     /* ----------------------------- */

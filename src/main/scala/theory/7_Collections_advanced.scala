@@ -23,7 +23,7 @@ object Lift {
     println(
       "seq(3): " + seq(3)
     )
-    //println(list(10))  //IndexOutOfBoundsException
+    //println(seq(10))  //IndexOutOfBoundsException
     println(
       "liftedSeq(3): " + liftedSeq(3)
     )
@@ -49,10 +49,20 @@ object Fold {
     This means that fold is a more generic function than reduce, which in turn means that we could implement reduce in terms of foldLeft (you will be asked
     to do this in the exercise section)
      */
+
+    /*
+    The difference between foldLeft and foldRight resides in the starting point of the execution:
+     */
     println(
-      "foldLeft: " + seq.foldLeft("")(_ + _)
+      "foldLeft: " + seq.foldLeft("z")(_ + _)
+    )
+    println(
+      "foldRight: " + seq.foldRight("z")(_ + _)
     )
 
+    /*
+    The order becomes especially important when you use sequence constructors like Array(), as the next example demonstrates:
+     */
     val toArrayFR = seq.foldRight(Array(): Array[Int])(_ +: _)
     println(
       "toArray(foldRight): " + toArrayFR.mkString("Array(", ", ", ")")
@@ -106,6 +116,7 @@ object Traverse {
 }
 
 object Sequence {
+  def sequence[A](s: Option[Seq[A]]): Seq[Option[A]] = ???
   def main(args: Array[String]): Unit = {
     println(
       //traverse(seqOpt)

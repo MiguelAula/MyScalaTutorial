@@ -15,6 +15,7 @@ object TypeClassExercises {
   /**
    *  1.3) Now use this typeClass to implement reduceFL (you can change the given signature)
    */
+  def reduceFL[A](l: List[A])(f: (A,A) => A): A = ???
 
   /**
    *  1.4) The 'Monoid' typeClass allows you to implement reduceFL for any simple data type. But what if A is by itself a typeClass like List[A]?
